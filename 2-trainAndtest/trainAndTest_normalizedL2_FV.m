@@ -1,4 +1,4 @@
-function [ des_accs ] = trainAndTest_normalizedL2_FV(descriptorType,tr_index,classlabel,encode_method,split,feat_all,gmmSize)
+function [ des_accs ] = trainAndTest_normalizedL2_FV(descriptorType,tr_index,classlabel,encode_method,split,feat_all,gmmSize,normalize_method)
     tr_kern_sum = []; ts_kern_sum = [];
     des_accs = zeros(numel(descriptorType)+1,1);
     trn_indx  = find(tr_index==1);

@@ -37,6 +37,6 @@ function des_accs = run_hmdb_split(split)
 %       load(feat_path);
 %    end
 
-    addpath('2-trainAndtest');
-  des_accs =   trainAndTest_normalizedL2_FV(descriptorType,tr_index,classlabel,encode_method,split,feat_all,gmmSize);
+  addpath('2-trainAndtest');
+  des_accs =   trainAndTest_normalizedL2_FV(descriptorType,tr_index,classlabel,encode_method,split,feat_all,gmmSize,normalize_method);
 end
