@@ -16,5 +16,4 @@ function [obj,trj,hog,hof,mbhx,mbhy] = extract_improvedfeatures(videofile,outfil
     hof = data(:,41+96:41+96+107);
     mbhx  = data(:,41+96+108:41+96+108+95);
     mbhy  = data(:,41+96+108+96:41+96+108+96+95);
-    
 end

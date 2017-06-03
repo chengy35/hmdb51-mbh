@@ -14,7 +14,7 @@
 % Jinjun Wang, march 19, 2010
 % ========================================================================
 
-function [Coeff] = LLC_coding_appr(B, X, knn, beta)
+function [Coeff] = LLC_coding_appr(encoder, X, knn, beta)
 
 if ~exist('knn', 'var') || isempty(knn),
     knn = 5;
@@ -24,26 +24,21 @@ if ~exist('beta', 'var') || isempty(beta),
     beta = 1e-4;
 end
 
-nframe=size(X,1);
+B = encoder.words'; 
+nframe=size(X,2);
 nbase=size(B,1);
 
-% find k nearest neighbors
-XX = sum(X.*X, 2);
-BB = sum(B.*B, 2);
-D  = repmat(XX, 1, nbase)-2*X*B'+repmat(BB', nframe, 1);
-IDX = zeros(nframe, knn);
-for i = 1:nframe,
-	d = D(i,:);
-	[dummy, idx] = sort(d, 'ascend');
-	IDX(i, :) = idx(1:knn);
-end
+% find k nearest neighbors ================ slow
+[I,D] = vl_kdtreequery(encoder.kdtree, encoder.words, X, ...
+            'NUMNEIGHBORS', knn, 'MaxComparisons', 100) ;
 
+X=X'; I = double(I');
 % llc approximation coding
 II = eye(knn, knn);
-Coeff = zeros(nframe, nbase);
+Coeff = zeros(nframe, nbase,'single');
 for i=1:nframe
-   idx = IDX(i,:);
-   z = B(idx,:) - repmat(X(i,:), knn, 1);           % shift ith pt to origin
+   idx = I(i,:);
+   z = bsxfun(@minus,B(idx,:), X(i,:));           % shift ith pt to origin
    C = z*z';                                        % local covariance
    C = C + II*beta*trace(C);                        % regularlization (K>D)
    w = C\ones(knn,1);
