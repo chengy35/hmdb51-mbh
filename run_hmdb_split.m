@@ -1,17 +1,17 @@
-function des_accs = run_hmdb_split(varargin)
+function des_accs = run_hmdb_split(split)
 %run_split:
-% Example:
-%  run_split('split',1,'descriptor',{'mbhx','mbhy'}, 'encode', 'fv', 'gmmSize', 256, 'normalize', 'Power-Intra-L2', 'dataset', 'hmdb51')
-%
+%    Example:
 %    descriptor: {'hog','hof','mbhx','mbhy'} or its subset.
 %    encode: choose one method from {'fv','svc','svc-k','svc-all','vlad','vlad-k','vlad-all','llc','sa-k','vq'}
 %    normalize: choose one method from {'Power-L2','Power-Intra-L2'}.
 
+    gmmSize = 256;
+    normalize_method = 'Power-Intra-L2';
+    encode_method = 'fv';
+    dataset = 'hmdb51';
+    descriptorType = {'mbhx', 'mbhy'};
     [videoname, classlabel,fv_dir, vocab_dir, descriptor_path, video_dir, actions,tr_index] = getconfig(split);
     
-    addpath('./util');
-    [split, descriptorType, encode_method, normalize_method, gmmSize, dataset] = parse_parameters(varargin{:});
-
     addpath('./0-trajectory');
     extractIDT(video_dir,videoname,descriptor_path);
 
