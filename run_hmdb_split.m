@@ -7,14 +7,17 @@ function des_accs = run_hmdb_split(varargin)
 
 
     addpath('util');
+    addpath('./0-trajectory');
+    addpath('./1-fv');
+    addpath('./2-trainAndtest');
     [split, descriptorType, encode_method, normalize_method, gmmSize, dataset] = parse_parameters(varargin{:});
     [videoname, classlabel,fv_dir, vocab_dir, descriptor_path, video_dir, actions,tr_index] = getconfig(split, dataset);
 
     feat_path = fullfile(fv_dir, sprintf('feat_all_split_%d.mat', split));
     if ~exist(feat_path,'file')
-        addpath('./0-trajectory');
+        
         extractIDT(video_dir,videoname,descriptor_path);
-        addpath('./1-fv');
+        
         fprintf('getGMM \n');
         [gmm,codebook] = getGMMAndBOW(split,videoname(tr_index==1),vocab_dir,descriptor_path, gmmSize);
         fprintf('generate Fisher Vectors \n');
@@ -24,7 +27,7 @@ function des_accs = run_hmdb_split(varargin)
     else
         load(feat_path);
     end
-
+    
     tr_kern_sum = []; ts_kern_sum = [];
     des_accs = zeros(numel(descriptorType)+1,1);
     trn_indx  = find(tr_index==1);
