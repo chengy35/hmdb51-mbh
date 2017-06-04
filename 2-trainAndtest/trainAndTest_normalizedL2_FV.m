@@ -9,7 +9,7 @@ function [ des_accs ] = trainAndTest_normalizedL2_FV(descriptorType,tr_index,cla
         [~,ides] = ismember(descriptorType{i},{'hog','hof','mbhx','mbhy'});
         if ~exist(sprintf('%s_%s_%d_Kern.mat',descriptorType{i},encode_method,split),'file')
             feature = feat_all{ides};
-            feature = normalize(feature',normalize_method, 2*gmmSize); % now feature in column-wise
+            feature = normalize(feature',normalize_method, 2*gmmSize); % now feature in column-wise'
             TrainData = feature(:,trn_indx);
             TestData = feature(:,test_indx);
             TrainData_Kern = TrainData' * TrainData;
