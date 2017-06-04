@@ -1,4 +1,4 @@
-function des_accs = run_hmdb_split(varargin{:})
+function des_accs = run_hmdb_split(varargin)
 %run_split:
 %    Example:
 %    descriptor: {'hog','hof','mbhx','mbhy'} or its subset.
