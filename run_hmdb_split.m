@@ -1,9 +1,9 @@
 function des_accs = run_hmdb_split(varargin)
-%run_split:
-%    Example:
-%    descriptor: {'hog','hof','mbhx','mbhy'} or its subset.
-%    encode: choose one method from {'fv','svc','svc-k','svc-all','vlad','vlad-k','vlad-all','llc','sa-k','vq'}
-%    normalize: choose one method from {'Power-L2','Power-Intra-L2'}.
+	%run_split:
+	%    Example:
+	%    descriptor: {'hog','hof','mbhx','mbhy'} or its subset.
+	%    encode: choose one method from {'fv','svc','svc-k','svc-all','vlad','vlad-k','vlad-all','llc','sa-k','vq'}
+	%    normalize: choose one method from {'Power-L2','Power-Intra-L2'}.
 	addpath('~/lib/vlfeat/toolbox');
 	vl_setup();
 	setenv('LD_LIBRARY_PATH','/usr/local/lib/'); 
