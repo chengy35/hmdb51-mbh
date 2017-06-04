@@ -23,7 +23,7 @@ function des_accs = run_hmdb_split(varargin)
 		fprintf('getGMM \n');
 		[gmm,codebook] = getGMMAndBOW(split,videoname(tr_index==1),vocab_dir,descriptor_path, gmmSize);
 		fprintf('generate Fisher Vectors \n');
-		encodeVideos(videoname,gmm,codebook,fv_dir,descriptor_path, encode_method);
+		encodeVideos(videoname,gmm,codebook,fv_dir,descriptor_path, encode_method,video_dir);
 		fvhogdimension = size(gmm.pcamap.hog,2)*2*size(gmm.means.hog,2);
 		fvhofdimension = size(gmm.pcamap.hof,2)*2*size(gmm.means.hof,2);
 		fvmbhxdimension = size(gmm.pcamap.mbhx,2)*2*size(gmm.means.mbhx,2);

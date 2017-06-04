@@ -1,4 +1,4 @@
-function  encodeVideos(videoname,gmm,codebook,fv_dir,descriptor_dir, encode)
+function  encodeVideos(videoname,gmm,codebook,fv_dir,descriptor_path, encode,video_dir)
 %ENCODEVIDEOS:   encode all video IDT features with 'encode' method.
 % For simplity, we only integrate Fisher vector method here
     if ~exist(fv_dir,'dir'), mkdir(fv_dir), end
@@ -20,8 +20,8 @@ function  encodeVideos(videoname,gmm,codebook,fv_dir,descriptor_dir, encode)
         timest = tic();
         savefile = fullfile(fv_dir, sprintf('%s.mat',videoname{i}));
         if ~exist(savefile, 'file')
-            descriptorFile = fullfile(descriptor_dir,sprintf('%s.mat',videoname{i}));
-            videoObj = VideoReader(videoname{i});
+            descriptorFile = fullfile(descriptor_path,sprintf('%s.mat',videoname{i}));
+            videoObj = VideoReader(sprintf('%s%s.avi',video_dir,videoname{i}));
             frames = videoObj.NumberOfFrames;
             dt = load(descriptorFile);
             fv_hog = zeros( numel(frames),size(gmm.pcamap.hog,2)*2*size(gmm.means.hog,2));
