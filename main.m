@@ -1,13 +1,5 @@
 clear;
 clc;
-% TODO Add paths
-addpath('~/lib/vlfeat/toolbox');
-vl_setup();
-setenv('LD_LIBRARY_PATH','/usr/local/lib/'); 
-addpath('~/lib/liblinear/matlab');
-addpath('~/lib/libsvm/matlab');
-addpath('~/lib/natsort');
-addpath('util')
 
 des_accs = [];
 for s = 1:3

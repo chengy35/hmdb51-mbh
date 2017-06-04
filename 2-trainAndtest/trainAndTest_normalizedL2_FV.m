@@ -1,5 +1,5 @@
-function [ des_accs ] = trainAndTest_normalizedL2_FV(descriptorType,tr_index,classlabel,encode_method,split,feat_all,gmmSize,normalize_method)
-   tr_kern_sum = []; ts_kern_sum = [];
+function [ des_accs ] = trainAndTest_normalizedL2_FV(descriptorType,tr_index,classlabel,encode_method,split,wfeat_all,gmmSize,normalize_method)
+    tr_kern_sum = []; ts_kern_sum = [];
     des_accs = zeros(numel(descriptorType)+1,1);
     trn_indx  = find(tr_index==1);
     test_indx = find(tr_index==0);
@@ -8,7 +8,7 @@ function [ des_accs ] = trainAndTest_normalizedL2_FV(descriptorType,tr_index,cla
     for i = 1 : numel(descriptorType)
         [~,ides] = ismember(descriptorType{i},{'hog','hof','mbhx','mbhy'});
         if ~exist(sprintf('%s_%s_%d_Kern.mat',descriptorType{i},encode_method,split),'file')
-            feature = feat_all{ides};
+            feature = wfeat_all{ides};
             feature = normalize(feature',normalize_method, 2*gmmSize); % now feature in column-wise'
             TrainData = feature(:,trn_indx);
             TestData = feature(:,test_indx);
