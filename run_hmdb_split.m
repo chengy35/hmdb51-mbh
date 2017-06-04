@@ -9,7 +9,7 @@ function des_accs = run_hmdb_split(split)
     normalize_method = 'Power-Intra-L2';
     encode_method = 'fv';
     dataset = 'hmdb51';
-    descriptorType = {'mbhx', 'mbhy'};
+    descriptorType = {'hog','hof','mbhx','mbhy'};
     [videoname, classlabel,fv_dir, vocab_dir, descriptor_path, video_dir, actions,tr_index] = getconfig(split);
     
     addpath('./0-trajectory');
