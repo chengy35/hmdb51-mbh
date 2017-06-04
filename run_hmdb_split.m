@@ -8,7 +8,7 @@ function des_accs = run_hmdb_split(varargin)
 
     addpath('util');
     [split, descriptorType, encode_method, normalize_method, gmmSize, dataset] = parse_parameters(varargin{:});
-    [videoname, classlabel,fv_dir, vocab_dir, descriptor_path, video_dir, actions,tr_index] = getConfig(split, dataset);
+    [videoname, classlabel,fv_dir, vocab_dir, descriptor_path, video_dir, actions,tr_index] = getconfig(split, dataset);
 
     feat_path = fullfile(fv_dir, sprintf('feat_all_split_%d.mat', split));
     if ~exist(feat_path,'file')
