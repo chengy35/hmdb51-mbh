@@ -21,10 +21,10 @@ function [wfeat_all] = getVideoDarwin(videoname,gmm,codebook,fv_dir,w_dir,descri
         if ~exist(savefile, 'file')
             timest = tic();
             fvfeat = load (fvfeatfile);
-            w_hog(i,:) = VideoDarwin(fvfeat.hog);
-            w_hof(i,:) = VideoDarwin(fvfeat.hof);
-            w_mbhx(i,:) = VideoDarwin(fvfeat.mbhx);
-            w_mbhy(i,:) = VideoDarwin(fvfeat.mbhy);
+            w_hog(i,:) = VideoDarwin(fvfeat.fvec_hog);
+            w_hof(i,:) = VideoDarwin(fvfeat.fvec_hof);
+            w_mbhx(i,:) = VideoDarwin(fvfeat.fvec_mbhx);
+            w_mbhy(i,:) = VideoDarwin(fvfeat.fvec_mbhy);
             save_w(savefile,w_hog(i,:),w_hof(i,:),w_mbhx(i,:),w_mbhy(i,:));
             timest = toc(timest);
             fprintf('%d -> %s -->  %1.1f sec.\n',i,savefile,timest);
