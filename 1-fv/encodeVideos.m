@@ -1,4 +1,5 @@
 function  encodeVideos(videoname,gmm,codebook,fv_dir,descriptor_path, encode,video_dir)
+
 %ENCODEVIDEOS:   encode all video IDT features with 'encode' method.
 % For simplity, we only integrate Fisher vector method here
     if ~exist(fv_dir,'dir'), mkdir(fv_dir), end
@@ -11,10 +12,11 @@ function  encodeVideos(videoname,gmm,codebook,fv_dir,descriptor_path, encode,vid
             end
         end
     end
-    int hogdimension = size(gmm.pcamap.hog,2)*2*size(gmm.means.hog,2);
-    int hofdimension = size(gmm.pcamap.hof,2)*2*size(gmm.means.hof,2);
-    int mbhxdimension = size(gmm.pcamap.mbhx,2)*2*size(gmm.means.mbhx,2);
-    int mbhydimension = size(gmm.pcamap.mbhy,2)*2*size(gmm.means.mbhy,2);
+    
+    hogdimension = size(gmm.pcamap.hog,2)*2*size(gmm.means.hog,2);
+    hofdimension = size(gmm.pcamap.hof,2)*2*size(gmm.means.hof,2);
+    mbhxdimension = size(gmm.pcamap.mbhx,2)*2*size(gmm.means.mbhx,2);
+    mbhydimension = size(gmm.pcamap.mbhy,2)*2*size(gmm.means.mbhy,2);
     
     for i = 1 : numel(videoname)
         timest = tic();
@@ -30,7 +32,7 @@ function  encodeVideos(videoname,gmm,codebook,fv_dir,descriptor_path, encode,vid
             fv_mbhy = zeros( numel(frames),size(gmm.pcamap.mbhy,2)*2*size(gmm.means.mbhy,2));
             if ~isempty(dt)
                 for frm = 1 : numel(frames)
-                    frm_indx = find(obj(:,1)==frames(frm));            
+                    frm_indx = find(dt.obj(:,1)==frames(frm));            
                     fv_hog(frm,:) = getFisherVector(dt.hog,gmm.means.hog, gmm.covariances.hog, gmm.priors.hog,gmm.pcamap.hog,0.5,frm_indx);
                     fv_hof(frm,:) = getFisherVector(dt.hof,gmm.means.hof, gmm.covariances.hof, gmm.priors.hof,gmm.pcamap.hof,0.5,frm_indx);
                     fv_mbhx(frm,:) = getFisherVector(dt.mbhx,gmm.means.mbhx, gmm.covariances.mbhx, gmm.priors.mbhx,gmm.pcamap.mbhx,0.5,frm_indx);
@@ -38,10 +40,10 @@ function  encodeVideos(videoname,gmm,codebook,fv_dir,descriptor_path, encode,vid
                 end
             else
                 for i = 1 : numel(frames)
-                        fv_hog(i,:) = 1/hogdimension;
-                        fv_hof(i,:) = 1/hofdimension;
-                        fv_mbhx(i,:) = 1/mbhxdimension;
-                        fv_mbhy(i,:) = 1/mbhydimension;
+                    fv_hog(i,:) = 1/hogdimension;
+                    fv_hof(i,:) = 1/hofdimension;
+                    fv_mbhx(i,:) = 1/mbhxdimension;
+                    fv_mbhy(i,:) = 1/mbhydimension;
                 end
             end
             save_fv(savefile, fv_hog, fv_hof, fv_mbhx, fv_mbhy);
