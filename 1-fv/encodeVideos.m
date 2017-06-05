@@ -32,10 +32,10 @@ function  encodeVideos(videoname,gmm,codebook,fv_dir,descriptor_path, encode,vid
                 fv_mbhy = zeros( numel(frames),mbhydimension);
                 for frm = 1 : numel(frames)
                     frm_indx = find(dt.obj(:,1)==frames(frm));
-                    fv_hog(frm,:) = getFisherVector(dt.hog,gmm.means.hog, gmm.covariances.hog, gmm.priors.hog,gmm.pcamap.hog,0.5,frm_indx);
-                    fv_hof(frm,:) = getFisherVector(dt.hof,gmm.means.hof, gmm.covariances.hof, gmm.priors.hof,gmm.pcamap.hof,0.5,frm_indx);
-                    fv_mbhx(frm,:) = getFisherVector(dt.mbhx,gmm.means.mbhx, gmm.covariances.mbhx, gmm.priors.mbhx,gmm.pcamap.mbhx,0.5,frm_indx);
-                    fv_mbhy(frm,:) = getFisherVector(dt.mbhy,gmm.means.mbhy, gmm.covariances.mbhy, gmm.priors.mbhy,gmm.pcamap.mbhy,0.5,frm_indx);
+                    fv_hog(frm,:) = vl_fisher( (bsxfun(@minus,dt.hog(frm_indx,:),gmm.centre.hog)*gmm.pcamap.hog)', gmm.means.hog, gmm.covariances.hog, gmm.priors.hog);
+                    fv_hof(frm,:) = vl_fisher( (bsxfun(@minus,dt.hof(frm_indx,:),gmm.centre.hof)*gmm.pcamap.hof)', gmm.means.hof, gmm.covariances.hof, gmm.priors.hof);
+                    fv_mbhx(frm,:) = vl_fisher( (bsxfun(@minus,dt.mbhx(frm_indx,:),gmm.centre.mbhx)*gmm.pcamap.mbhx)', gmm.means.mbhx, gmm.covariances.mbhx, gmm.priors.mbhx);
+                    fv_mbhy(frm,:) = vl_fisher( (bsxfun(@minus,dt.mbhy(frm_indx,:),gmm.centre.mbhy)*gmm.pcamap.mbhy)', gmm.means.mbhy, gmm.covariances.mbhy, gmm.priors.mbhy);
                 end
             else
                 videoObj = VideoReader(sprintf('%s/%s.avi',video_dir,videoname{i}));
@@ -63,9 +63,4 @@ end
 
 function save_fv(filepath,fvec_hog, fvec_hof, fvec_mbhx, fvec_mbhy)
    save(filepath,'fvec_hog', 'fvec_hof', 'fvec_mbhx', 'fvec_mbhy');
-end
-
-function h = getFisherVector(all, means, covariances, priors,pcamap,pcaFactor,frm_indx)  
-    comps = pcamap(:,1:size(pcamap,1)*pcaFactor);
-    h = vl_fisher((all(frm_indx,:)*comps)', means, covariances, priors);
 end
