@@ -16,7 +16,7 @@ function des_accs = run_hmdb_split(varargin)
 	[videoname, classlabel,fv_dir, w_dir, vocab_dir, descriptor_path, video_dir, actions,tr_index] = getconfig(split, dataset);
 
 	wfeat_path = fullfile(w_dir, sprintf('wfeat_all_split_%d.mat', split));
-	if ~exist(feat_path,'file')
+	if ~exist(wfeat_path,'file')
 		addpath('./0-trajectory');
 		extractIDT(video_dir,videoname,descriptor_path);
 		addpath('./1-fv');
