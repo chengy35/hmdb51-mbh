@@ -23,16 +23,15 @@ function  encodeVideos(videoname,gmm,codebook,fv_dir,descriptor_path, encode,vid
         savefile = fullfile(fv_dir, sprintf('%s.mat',videoname{i}));
         if ~exist(savefile, 'file')
             descriptorFile = fullfile(descriptor_path,sprintf('%s.mat',videoname{i}));
-            videoObj = VideoReader(sprintf('%s/%s.avi',video_dir,videoname{i}));
-            frames = videoObj.NumberOfFrames;
             dt = load(descriptorFile);
             fv_hog = zeros( numel(frames),size(gmm.pcamap.hog,2)*2*size(gmm.means.hog,2));
             fv_hof = zeros( numel(frames),size(gmm.pcamap.hof,2)*2*size(gmm.means.hof,2));
             fv_mbhx = zeros( numel(frames),size(gmm.pcamap.mbhx,2)*2*size(gmm.means.mbhx,2));
             fv_mbhy = zeros( numel(frames),size(gmm.pcamap.mbhy,2)*2*size(gmm.means.mbhy,2));
             if ~isempty(dt)
+                frames = unique(dt.obj(:,1));
                 for frm = 1 : numel(frames)
-                    frm_indx = find(dt.obj(:,1)==frames(frm));            
+                    frm_indx = find(dt.obj(:,1)==frames(frm));
                     fv_hog(frm,:) = getFisherVector(dt.hog,gmm.means.hog, gmm.covariances.hog, gmm.priors.hog,gmm.pcamap.hog,0.5,frm_indx);
                     fv_hof(frm,:) = getFisherVector(dt.hof,gmm.means.hof, gmm.covariances.hof, gmm.priors.hof,gmm.pcamap.hof,0.5,frm_indx);
                     fv_mbhx(frm,:) = getFisherVector(dt.mbhx,gmm.means.mbhx, gmm.covariances.mbhx, gmm.priors.mbhx,gmm.pcamap.mbhx,0.5,frm_indx);
