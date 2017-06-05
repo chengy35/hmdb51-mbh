@@ -18,7 +18,7 @@ function  encodeVideos(videoname,gmm,codebook,fv_dir,descriptor_path, encode,vid
     mbhxdimension = size(gmm.pcamap.mbhx,2)*2*size(gmm.means.mbhx,2);
     mbhydimension = size(gmm.pcamap.mbhy,2)*2*size(gmm.means.mbhy,2);
     
-    for i = 1 : numel(videoname)
+    for i = 1 : 3
         timest = tic();
         savefile = fullfile(fv_dir, sprintf('%s.mat',videoname{i}));
         if ~exist(savefile, 'file')
