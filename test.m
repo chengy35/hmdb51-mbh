@@ -31,14 +31,6 @@ if ~exist(fv_dir,'dir'), mkdir(fv_dir), end
             end
         end
     end
-    
- hogdimension = size(gmm.pcamap.hog,2)*2*size(gmm.means.hog,2);
- hofdimension = size(gmm.pcamap.hof,2)*2*size(gmm.means.hof,2);
- mbhxdimension = size(gmm.pcamap.mbhx,2)*2*size(gmm.means.mbhx,2);
- mbhydimension = size(gmm.pcamap.mbhy,2)*2*size(gmm.means.mbhy,2);
- i = 1;
-descriptorFile = fullfile(descriptor_path,sprintf('%s.mat',videoname{i}));
-videoObj = VideoReader(sprintf('%s/%s.avi',video_dir,videoname{i}));
 
 encodeVideos(videoname,gmm,codebook,fv_dir,descriptor_path, encode_method,video_dir);
 
@@ -46,5 +38,3 @@ fvhogdimension = size(gmm.pcamap.hog,2)*2*size(gmm.means.hog,2);
 fvhofdimension = size(gmm.pcamap.hof,2)*2*size(gmm.means.hof,2);
 fvmbhxdimension = size(gmm.pcamap.mbhx,2)*2*size(gmm.means.mbhx,2);
 fvmbhydimension =  size(gmm.pcamap.mbhy,2)*2*size(gmm.means.mbhy,2);
-
-
