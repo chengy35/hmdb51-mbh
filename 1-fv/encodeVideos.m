@@ -24,12 +24,12 @@ function  encodeVideos(videoname,gmm,codebook,fv_dir,descriptor_path, encode,vid
         if ~exist(savefile, 'file')
             descriptorFile = fullfile(descriptor_path,sprintf('%s.mat',videoname{i}));
             dt = load(descriptorFile);
-            fv_hog = zeros( numel(frames),size(gmm.pcamap.hog,2)*2*size(gmm.means.hog,2));
-            fv_hof = zeros( numel(frames),size(gmm.pcamap.hof,2)*2*size(gmm.means.hof,2));
-            fv_mbhx = zeros( numel(frames),size(gmm.pcamap.mbhx,2)*2*size(gmm.means.mbhx,2));
-            fv_mbhy = zeros( numel(frames),size(gmm.pcamap.mbhy,2)*2*size(gmm.means.mbhy,2));
             if ~isempty(dt)
                 frames = unique(dt.obj(:,1));
+                fv_hog = zeros( numel(frames),size(gmm.pcamap.hog,2)*2*size(gmm.means.hog,2));
+                fv_hof = zeros( numel(frames),size(gmm.pcamap.hof,2)*2*size(gmm.means.hof,2));
+                fv_mbhx = zeros( numel(frames),size(gmm.pcamap.mbhx,2)*2*size(gmm.means.mbhx,2));
+                fv_mbhy = zeros( numel(frames),size(gmm.pcamap.mbhy,2)*2*size(gmm.means.mbhy,2));
                 for frm = 1 : numel(frames)
                     frm_indx = find(dt.obj(:,1)==frames(frm));
                     fv_hog(frm,:) = getFisherVector(dt.hog,gmm.means.hog, gmm.covariances.hog, gmm.priors.hog,gmm.pcamap.hog,0.5,frm_indx);
@@ -38,13 +38,20 @@ function  encodeVideos(videoname,gmm,codebook,fv_dir,descriptor_path, encode,vid
                     fv_mbhy(frm,:) = getFisherVector(dt.mbhy,gmm.means.mbhy, gmm.covariances.mbhy, gmm.priors.mbhy,gmm.pcamap.mbhy,0.5,frm_indx);
                 end
             else
-                for i = 1 : numel(frames)
+                videoObj = VideoReader(sprintf('%s/%s.avi',video_dir,videoname{i}));
+                frames = videoObj.NumberOfFrames;
+                fv_hog = zeros( numel(frames),size(gmm.pcamap.hog,2)*2*size(gmm.means.hog,2));
+                fv_hof = zeros( numel(frames),size(gmm.pcamap.hof,2)*2*size(gmm.means.hof,2));
+                fv_mbhx = zeros( numel(frames),size(gmm.pcamap.mbhx,2)*2*size(gmm.means.mbhx,2));
+                fv_mbhy = zeros( numel(frames),size(gmm.pcamap.mbhy,2)*2*size(gmm.means.mbhy,2));
+                for i = 1 : frames
                     fv_hog(i,:) = 1/hogdimension;
                     fv_hof(i,:) = 1/hofdimension;
                     fv_mbhx(i,:) = 1/mbhxdimension;
                     fv_mbhy(i,:) = 1/mbhydimension;
                 end
             end
+            
             save_fv(savefile, fv_hog, fv_hof, fv_mbhx, fv_mbhy);
         else
               sprintf('%s exist!',savefile);

@@ -8,4 +8,3 @@ for s = 1:3
         des_accs = [des_accs, split_accs];
 end
 des_accs = [des_accs, mean(des_accs,2)]  
-
