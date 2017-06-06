@@ -34,7 +34,7 @@ function [wfeat_all] = getVideoDarwin(videoname,gmm,codebook,fv_dir,w_dir,descri
             w_hof(i,:) = w_hof;
             w_mbhx(i,:) = w_mbhx; 
             w_mbhy(i,:) = w_mbhy;
-            sprintf('%s exist!',savefile);
+            fprintf('%d/%d==========>%s exist!\n',i,numel(videoname),savefile);
         end
     end
 
